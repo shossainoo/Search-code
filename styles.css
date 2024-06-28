@@ -1,0 +1,131 @@
+body {
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+}
+
+.typing-box {
+    height: 25vh; /* 50% of the viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#typing-heading {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-form {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+}
+
+.search-bar {
+    border: 2px solid #00ffcc;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    transition: border-color 0.3s ease-in-out;
+    background-color: #1e1e1e;
+    color: #00ffcc;
+}
+
+.search-bar:focus {
+    animation: robotic 2.5s infinite;
+    color: #00ffcc;
+    background-color: #70636E;
+    border-color: #FF00CC;
+    box-shadow: 0 0 10px #ff00cc;
+}
+
+.search-bar::placeholder {
+    color: #00ffcc;
+    opacity: 0.6;
+}
+/* P tag for counter */
+.p-plus {
+    animation: pulse 2s infinite;
+    background-color: #000000; 
+    padding: 10px 20px;
+    border-radius: 5px; 
+    color: #00FFCC; 
+    font-size: 30px; 
+    text-transform: uppercase; 
+    position: fixed; 
+    top: 20px; 
+    right: 20px;
+    z-index: 1000;
+}
+/* Define the pulse animation */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: none;
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.5);
+    }
+    100% {
+        opacity: 2;
+        transform: none;
+    }
+}
+
+@keyframes moveRight {
+    0% { transform: translateX(0); opacity: 1; }
+    100% { transform: translateX(200%); opacity: 0; }
+}
+
+@keyframes moveLeft {
+    0% { transform: translateX(-200%); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes robotic {
+   0%{
+      border-color: #FFA500;
+   }
+   50%{
+      
+      border-color: #EA00FF;
+   }
+   100%{
+      border-color: #000CFF;
+   }
+   
+   20%{
+      
+      border-color: #FA0055;
+   }
+}
+
+#search-button {
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+}
+
+.submitting {
+    animation-name: moveRight;
+}
+
+.submitted {
+    animation-name: moveLeft;
+    animation-duration: 1.5s;
+} 
+
+/* Button clicker css*/
+#submit-counter {
+    position: fixed;
+    font-family: 'Gill Sans', sans-serif;
+    top: 20px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    font-size: 30px;
+    text-transform: uppercase;
+    color: #00FFCC; /* #00EDFF text color */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background */
+    padding: 10px 20px;
+    border-radius: 5px;
+    z-index: 1000; /* Ensure it's above other content */
+}

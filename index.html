@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icognet Mode Search Engine</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <div class="typing-box">
+            <h1 class="mb-4" id="typing-heading"></h1>
+        </div>
+        <form id="search-form" class="search-form">
+            <div class="form-group">
+                <select id="search-engine" class="form-control mb-3">
+                    <option value="https://www.google.com/search?q=">Google</option>
+                    <option value="https://search.yahoo.com/search?p=">Yahoo</option>
+                    <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+                </select>
+            </div>
+            <input type="text" id="search-input" class="form-control search-bar" placeholder="Search...">
+            <button type="submit" id="search-button" class="btn btn-primary mt-3">Search</button>
+        </form>
+    </div>
+    <p class="p-plus" id="submit-counter">0</p>
+</body>
+</html>
