@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Typing Practice - ASDF JKL:</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Cookie Consent Styles 
+    body.cookie-blur {
+      overflow: hidden;
+      filter: blur(5px);
+      pointer-events: none;
+    }*/
+
+    #cookieOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #cookieBox {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    #cookieBox h3 {
+      margin-top: 0;
+      color: #333;
+    }
+
+    #cookieBox p {
+      font-size: 14px;
+      color: #555;
+      margin: 15px 0;
+    }
+
+    #cookieBox button {
+      background: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #cookieBox button:hover {
+      background: #218838;
+    }
+
+    /* Typing Practice Styles */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+    }
+
+    #current-word {
+      font-family: 'Courier New', monospace;
+      font-size: 3.5rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      margin: 2rem 0;
+      color: #2c3e50;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    #input-field {
+      font-family: 'Courier New', monospace;
+      font-size: 1.5rem;
+      padding: 1rem 2rem;
+      width: 300px;
+      text-align: center;
+      border: 3px solid #3498db;
+      border-radius: 15px;
+      margin: 1rem 0;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.9);
+    }
+
+    #input-field:focus {
+      outline: none;
+      border-color: #2980b9;
+      box-shadow: 0 0 15px rgba(52,152,219,0.3);
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+    }
+
+    select {
+      padding: 0.8rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 2px solid #3498db;
+      background: white;
+      min-width: 200px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .stat-item {
+      padding: 1rem;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+      border-radius: 10px;
+    }
+
+    #level-bar {
+      position: fixed;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 200px;
+      border-radius: 10px;
+      background: linear-gradient(to bottom, #00ff00, #ff0000);
+      border: 2px solid #2c3e50;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    #level-indicator {
+      position: absolute;
+      width: 100%;
+      height: 20px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 5px;
+      transition: top 0.3s ease;
+    }
+
+    #results {
+      margin-top: 2rem;
+      padding: 2rem;
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    .char-container {
+      display: inline-block;
+    }
+
+    .char {
+      transition: all 0.1s ease;
+    }
+
+    .correct {
+      color: #27ae60 !important;
+      transform: scale(1.1);
+    }
+
+    .wrong-char {
+      color: #e74c3c !important;
+      position: relative;
+      top: -2px;+++++++++++++
+    }
+
+/* Replace the timer-circle styles with these */
+.timer-container {
+   width: 250px;
+   height: 30px;
+   margin: 1rem auto;
+   position: relative;
+   background: #eee;
+   border-radius: 15px;
+   overflow: hidden;
+   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.timer-bar {
+   position: absolute;
+   height: 100%;
+   background: linear-gradient(to right, #3498DB, #2980B9);
+   width: 100%;
+   transition: width 1s linear;
+}
+
+.timer-text {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-size: 1rem;
+   font-weight: bold;
+   color: #000000;
+   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0);
+   z-index: 1;
+}
+
+    .timer-background {
+      fill: none;
+      stroke: #eee;
+      stroke-width: 5;
+    }
+
+    .timer-progress {
+      fill: none;
+      stroke: #3498db;
+      stroke-width: 5;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s linear;
+    }
+
+
+    @media screen and (max-width: 600px) {
+      #cookieBox {
+        width: 90%;
+        padding: 20px;
+      }
+
+      #cookieBox p {
+        font-size: 13px;
+      }
+
+      #cookieBox button {
+        width: 100%;
+        padding: 12px;
+      }
+
+      #level-bar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="controls">
+    <select id="level-select">
+      <option value="1">Level 1 - ASDF JKL;</option>
+      <option value="2">Level 2 - ASDFGH JKL;</option>
+      <option value="3">Level 3 - QWER UIOP</option>
+      <option value="4">Level 4 - Extended</option>
+      <option value="5">Level 5 - Full Keyboard</option>
+    </select>
+    <button id="start-btn" onclick="startPractice()">Start Practice</button>
+  </div>
+<!-- Replace the timer-container div with this -->
+<div class="timer-container">
+   <div class="timer-bar"></div>
+   <div class="timer-text" id="timer">60</div>
+</div>
+
+  <div id="current-word" class="char-container">Press Start</div><br>
+  <input type="text" id="input-field" disabled>
+
+  <div class="stats">
+    <div class="stat-item">
+      <div>Accuracy</div>
+      <div id="accuracy">0%</div>
+    </div>
+    <div class="stat-item">
+      <div>Mistakes</div>
+      <div id="mistakes">0</div>
+    </div>
+    <div class="stat-item">
+      <div>Level</div>
+      <div id="current-level">1</div>
+    </div>
+  </div>
+
+  <div id="level-bar">
+    <div id="level-indicator"></div>
+  </div>
+
+  <div id="results">
+    <h3>Practice Results</h3>
+    <p>Words per Minute: <span id="wpm">0</span></p>
+    <p>Accuracy: <span id="final-accuracy">0</span>%</p>
+    <p>Top Mistakes:</p>
+    <ul id="top-mistakes"></ul>
+    <button onclick="resetPractice()">Try Again</button>
+  </div>
+
+  <!-- Cookie Consent -->
+  <div id="cookieOverlay">
+    <div id="cookieBox">
+      <h3>We Value Your Privacy</h3>
+      <p>We use cookies to improve your experience. Please accept to continue using this site.</p>
+      <button onclick="acceptCookies()">Accept & Continue</button>
+    </div>
+  </div>
+
+  <script>
+    function getDeviceType() {
+      const ua = navigator.userAgent;
+      if (/mobile/i.test(ua)) return "Mobile";
+      if (/tablet/i.test(ua)) return "Tablet";
+      return "Desktop";
+    }
+
+    function acceptCookies() {
+      localStorage.setItem("cookiesAccepted", "yes");
+      document.getElementById("cookieOverlay").style.display = "none";
+      document.body.classList.remove("cookie-blur");
+
+      const device = getDeviceType();
+      fetch("/ASDF/send_data.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: `device=${device}`,
+      });
+    }
+
+    if (!localStorage.getItem("cookiesAccepted")) {
+      document.getElementById("cookieOverlay").style.display = "flex";
+      document.body.classList.add("cookie-blur");
+    }
+  </script>
+
+  <script>
+    let words = [];
+    let currentWordIndex = 0;
+    let totalCorrect = 0;
+    let totalMistakes = 0;
+    let timer;
+    let practiceActive = false;
+    let currentLevel = 1;
+    let previousCurrentCorrect = 0;
+    let previousCurrentMistakes = 0;
+
+    const levelCharacters = {
+      1: ['a','s','d','f','j','k','l',';'],
+      2: ['a','s','d','f','g','h','j','k','l',';'],
+      3: ['q','w','e','r','u','i','o','p','a','s','d','f','j','k','l',';'],
+      4: ['t','y','v','c','b','n','m','g','h','a','s','d','f','j','k','l',';'],
+      5: ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z',';','[',']',',','-','=']
+    };
+
+    function updateLevelBar() {
+      const level = parseInt(document.getElementById('level-select').value);
+      const hue = 120 - ((level - 1) * 30);
+      document.getElementById('level-bar').style.background = `hsl(${hue}, 70%, 50%)`;
+      document.getElementById('current-level').textContent = level;
+    }
+
+    function generateWords() {
+      currentLevel = parseInt(document.getElementById('level-select').value);
+      const chars = levelCharacters[currentLevel];
+      words = [];
+      for (let i = 0; i < 200; i++) {
+        const length = Math.floor(Math.random() * 5) + 2;
+        words.push(Array.from({length}, () => chars[Math.floor(Math.random() * chars.length)]).join(''));
+      }
+    }
+
+    function updateWord() {
+      const word = words[currentWordIndex];
+      const container = document.getElementById('current-word');
+      container.innerHTML = word.split('').map(c => `<span class="char">${c}</span>`).join('');
+    }
+
+    function updateCharacterStatus(input) {
+      const chars = document.querySelectorAll('#current-word .char');
+      const currentWord = words[currentWordIndex];
+
+      chars.forEach((char, index) => {
+        char.classList.remove('correct', 'wrong-char');
+        if (index < input.length) {
+          if (input[index] === currentWord[index]) {
+            char.classList.add('correct');
+          } else {
+            char.classList.add('wrong-char');
+          }
+        }
+      });
+    }
+
+    function startPractice() {
+      generateWords();
+      currentWordIndex = 0;
+      totalCorrect = 0;
+      totalMistakes = 0;
+      practiceActive = true;
+      previousCurrentCorrect = 0;
+      previousCurrentMistakes = 0;
+
+      document.getElementById('input-field').disabled = false;
+      document.getElementById('input-field').value = '';
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('start-btn').disabled = true;
+      document.getElementById('level-select').disabled = true;
+      document.getElementById('timer').textContent = '60';
+      document.getElementById('accuracy').textContent = '0%';
+      document.getElementById('mistakes').textContent = '0';
+
+      updateLevelBar();
+      updateWord();
+      startTimer();
+      document.getElementById('input-field').focus();
+    }
+
+    function resetPractice() {
+      document.getElementById('results').style.display = 'none';
+      document.getElementById('start-btn').disabled = false;
+      document.getElementById('level-select').disabled = false;
+      document.getElementById('current-word').textContent = 'Press Start';
+      practiceActive = false;
+      clearInterval(timer);
+    }
+
+    document.getElementById('input-field').addEventListener('input', function(e) {
+      if (!practiceActive) return;
+
+      const input = this.value.toLowerCase();
+      const currentWord = words[currentWordIndex];
+      const inputLength = input.length;
+
+      let newCorrect = 0;
+      let newMistakes = 0;
+
+      for (let i = 0; i < inputLength; i++) {
+        if (i >= currentWord.length) {
+          newMistakes++;
+        } else if (input[i] === currentWord[i]) {
+          newCorrect++;
+        } else {
+          newMistakes++;
+        }
+      }
+
+      totalCorrect += (newCorrect - previousCurrentCorrect);
+      totalMistakes += (newMistakes - previousCurrentMistakes);
+      previousCurrentCorrect = newCorrect;
+      previousCurrentMistakes = newMistakes;
+
+      updateCharacterStatus(input);
+      updateStats();
+
+      if (input === currentWord) {
+        currentWordIndex++;
+        this.value = '';
+        previousCurrentCorrect = 0;
+        previousCurrentMistakes = 0;
+        if (currentWordIndex >= words.length) generateWords();
+        updateWord();
+      }
+    });
+
+function startTimer() {
+   let time = 60;
+   const timerBar = document.querySelector('.timer-bar');
+   timerBar.style.width = '100%';
+   
+   timer = setInterval(() => {
+            time--;
+            const percentage = (time / 60) * 100;
+            timerBar.style.width = `${percentage}%`;
+            document.getElementById('timer').textContent = time;
+if (time <= 10) {
+          timerBar.style.background = 'linear-gradient(to right, #e74c3c, #c0392b)';
+        }
+        
+        if (time <= 0) endPractice();
+      }, 1000);
+    }
+
+    function updateStats() {
+      const totalTyped = totalCorrect + totalMistakes;
+      const accuracy = totalTyped > 0 ? Math.round((totalCorrect / totalTyped) * 100) : 0;
+      document.getElementById('accuracy').textContent = `${accuracy}%`;
+      document.getElementById('mistakes').textContent = totalMistakes;
+    }
+
+    function endPractice() {
+      clearInterval(timer);
+      practiceActive = false;
+      document.getElementById('input-field').disabled = true;
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('start-btn').disabled = false;
+      document.getElementById('level-select').disabled = false;
+
+      const wpm = Math.round(totalCorrect / 5);
+      const accuracy = totalCorrect + totalMistakes > 0 
+        ? Math.round((totalCorrect / (totalCorrect + totalMistakes)) * 100)
+        : 0;
+
+      document.getElementById('wpm').textContent = wpm;
+      document.getElementById('final-accuracy').textContent = accuracy;
+
+      const mistakeCounts = {};
+      const mistakesList = document.getElementById('top-mistakes');
+      mistakesList.innerHTML = Object.entries(mistakeCounts)
+        .sort((a,b) => b[1] - a[1])
+        .slice(0,5)
+        .map(([mistake, count]) => `<li>${mistake}: ${count} times</li>`)
+        .join('');
+    }
+  </script>
+</body>
+  </html>
